@@ -9,8 +9,8 @@ function BackButton() {
     <motion.button
       onClick={() => navigate(-1)}
       whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.92 }}
-      className="flex items-center gap-2 text-base md:text-lg font-bold text-rose-950 hover:text-rose-700 px-6 pt-4"
+      whileTap={{ scale: 0.95 }}
+      className="inline-flex items-center gap-2 text-base md:text-lg font-bold text-rose-950 hover:text-rose-700 px-6 pt-4 origin-left"
     >
       <ArrowLeft size={20} className="md:w-6 md:h-6" />
       ফিরে যান

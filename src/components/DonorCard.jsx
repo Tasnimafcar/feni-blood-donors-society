@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { Phone } from 'lucide-react'
 
-function DonorCard({ donor }) {
+function DonorCard({ donor, onViewDetails }) {
     return (
-        <div className="bg-white rounded-2xl border border-rose-100 p-4 flex flex-col gap-3">
+        <motion.div
+            whileHover={{ scale: 1.03, y: -4 }}
+            transition={{ duration: 0.2 }}
+            className="bg-white rounded-2xl border border-rose-100 p-4 flex flex-col gap-3 shadow-sm hover:shadow-lg"
+        >
             <div className="flex items-center gap-3">
                 <div className="w-14 h-14 rounded-full bg-rose-950 text-white flex items-center justify-center font-semibold text-lg flex-shrink:0">
                     {donor.name.charAt(0)}
@@ -19,13 +23,15 @@ function DonorCard({ donor }) {
                     {donor.bloodGroup}
                 </span>
             </div>
-            <Link
-                to={`/donors/${donor.id}`}
-                className="text-center bg-rose-900 text-white text-sm font-semibold py-3 rounded-xl"
+            <motion.button
+                onClick={() => onViewDetails(donor)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-center bg-rose-950 text-white text-sm font-semibold py-3 rounded-xl"
             >
                 বিস্তারিত দেখুন
-            </Link>
-        </div>
+            </motion.button>
+        </motion.div>
     )
 }
 

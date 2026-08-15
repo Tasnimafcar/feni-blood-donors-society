@@ -1,3 +1,4 @@
+import DonorDetailsModal from '../components/DonorDetailsModal'
 import MedicalBackground from '../components/MedicalBackground'
 import { useState } from 'react'
 import { Search } from 'lucide-react'
@@ -8,16 +9,17 @@ import BloodGroupFilter from '../components/BloodGroupFilter'
 import DonorCard from '../components/DonorCard'
 
 const fakeDonors = [
-    { id: 1, name: 'রহিম উদ্দিন', englishName: 'Rahim Uddin', phone: '০১৭xxxxxxxx', bloodGroup: 'O+' },
-    { id: 2, name: 'সাবরিনা আক্তার', englishName: 'Sabrina Akter', phone: '০১৮xxxxxxxx', bloodGroup: 'A+' },
-    { id: 3, name: 'কামাল হোসেন', englishName: 'Kamal Hossain', phone: '০১৯xxxxxxxx', bloodGroup: 'O+' },
-    { id: 4, name: 'নাজমুল হক', englishName: 'Nazmul Haque', phone: '০১৬xxxxxxxx', bloodGroup: 'B+' },
-    { id: 5, name: 'ফারজানা ইসলাম', englishName: 'Farzana Islam', phone: '০১৭xxxxxxxx', bloodGroup: 'AB+' },
-    { id: 6, name: 'তানভীর আহমেদ', englishName: 'Tanvir Ahmed', phone: '০১৫xxxxxxxx', bloodGroup: 'O−' },
+    { id: 1, name: 'রহিম উদ্দিন', englishName: 'Rahim Uddin', phone: '০১৭xxxxxxxx', bloodGroup: 'O+', location: 'ফেনী সদর', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '২ মাস আগে' },
+    { id: 2, name: 'সাবরিনা আক্তার', englishName: 'Sabrina Akter', phone: '০১৮xxxxxxxx', bloodGroup: 'A+', location: 'ছাগলনাইয়া', club: '—', lastDonation: '৫ মাস আগে' },
+    { id: 3, name: 'কামাল হোসেন', englishName: 'Kamal Hossain', phone: '০১৯xxxxxxxx', bloodGroup: 'O+', location: 'সোনাগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '১ মাস আগে' },
+    { id: 4, name: 'নাজমুল হক', englishName: 'Nazmul Haque', phone: '০১৬xxxxxxxx', bloodGroup: 'B+', location: 'দাগনভূঞা', club: '—', lastDonation: '৩ মাস আগে' },
+    { id: 5, name: 'ফারজানা ইসলাম', englishName: 'Farzana Islam', phone: '০১৭xxxxxxxx', bloodGroup: 'AB+', location: 'পরশুরাম', club: '—', lastDonation: '৪ মাস আগে' },
+    { id: 6, name: 'তানভীর আহমেদ', englishName: 'Tanvir Ahmed', phone: '০১৫xxxxxxxx', bloodGroup: 'O−', location: 'ফুলগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '৬ মাস আগে' },
 ]
 function DonorSearch() {
     const [search, setSearch] = useState('')
     const [selectedGroup, setSelectedGroup] = useState('সব')
+    const [selectedDonor, setSelectedDonor] = useState(null)
 
     const filteredDonors = fakeDonors.filter((donor) => {
         const query = search.trim().toLowerCase()
@@ -51,7 +53,7 @@ function DonorSearch() {
 
                 <div className="grid sm:grid-cols-2 gap-4">
                     {filteredDonors.map((donor) => (
-                        <DonorCard key={donor.id} donor={donor} />
+                        <DonorCard key={donor.id} donor={donor} onViewDetails={setSelectedDonor} />
                     ))}
                 </div>
 
@@ -66,6 +68,7 @@ function DonorSearch() {
             </div>
 
             <Footer />
+            <DonorDetailsModal donor={selectedDonor} onClose={() => setSelectedDonor(null)} />
         </div>
     )
 }
