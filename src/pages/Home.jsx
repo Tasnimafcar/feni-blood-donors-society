@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 import MedicalBackground from '../components/MedicalBackground'
 import { Users, UserPlus } from 'lucide-react'
 import Navbar from '../components/Navbar'
-import Logo from '../components/LogoTemp'
+import Logo from '../components/Logo'
 
 function Home() {
     return (
