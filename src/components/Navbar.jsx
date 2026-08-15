@@ -1,4 +1,4 @@
-import Logo from './Logo'
+import logo from './logo'
 
 function Navbar() {
     return (
