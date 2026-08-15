@@ -24,7 +24,7 @@ function Footer() {
             <Phone size={18} className="flex-shrink:0" />
             <span>01585045382</span>
           </a>
-          <a href="https://facebook.com/yourpage" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-rose-100 hover:text-white">
+          <a href="https://www.facebook.com/share/1EBDNxRhYs/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-rose-100 hover:text-white">
             <span className="font-bold text-lg w-4.5 text-center flex-shrink:0">f</span>
             <span>Feni blood donners society</span>
           </a>
