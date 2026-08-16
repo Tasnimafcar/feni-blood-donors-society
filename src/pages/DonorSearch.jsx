@@ -65,8 +65,10 @@ function DonorSearch() {
             setSelectedDonor(null)
         }
     }
+    const registeredDonors = JSON.parse(localStorage.getItem('donors') || '[]')
+    const allDonors = [...registeredDonors, ...fakeDonors]
 
-    const filteredDonors = fakeDonors.filter((donor) => {
+    const filteredDonors = allDonors.filter((donor) => {
         const query = search.trim().toLowerCase()
         const matchesSearch =
             donor.name.includes(query) ||

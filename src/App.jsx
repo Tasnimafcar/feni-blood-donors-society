@@ -1,26 +1,18 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import DonorSearch from './pages/DonorSearch'
-import PageWrapper from './components/PageWrapper'
-
-function AnimatedRoutes() {
-  const location = useLocation()
-
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-        <Route path="/donors" element={<PageWrapper><DonorSearch /></PageWrapper>} />
-      </Routes>
-    </AnimatePresence>
-  )
-}
+import Register from './pages/Register'
+import Account from './pages/Account'
 
 function App() {
   return (
     <BrowserRouter>
-      <AnimatedRoutes />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/donors" element={<DonorSearch />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/account" element={<Account />} />
+      </Routes>
     </BrowserRouter>
   )
 }

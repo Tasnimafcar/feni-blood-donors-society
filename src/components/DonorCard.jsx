@@ -9,8 +9,12 @@ function DonorCard({ donor, onViewDetails }) {
             className="bg-white rounded-2xl border border-rose-100 p-4 flex flex-col gap-3 shadow-sm hover:shadow-lg"
         >
             <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-full bg-rose-950 text-white flex items-center justify-center font-semibold text-lg flex-shrink:0">
-                    {donor.name.charAt(0)}
+                <div className="w-14 h-14 rounded-full bg-rose-950 text-white flex items-center justify-center font-semibold text-lg flex-shrink:0 overflow-hidden">
+                    {donor.photo ? (
+                        <img src={donor.photo} alt={donor.name} className="w-full h-full object-cover" />
+                    ) : (
+                        donor.name.charAt(0)
+                    )}
                 </div>
                 <div className="min-w-0">
                     <p className="font-semibold text-rose-950 truncate">{donor.name}</p>

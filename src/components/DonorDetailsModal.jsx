@@ -20,8 +20,12 @@ function DonorDetailsModal({ donor, onClose }) {
                         className="bg-white rounded-2xl p-6 w-full max-w-sm"
                     >
                         <div className="relative flex justify-center mb-4">
-                            <div className="w-16 h-16 rounded-full bg-rose-950 text-white flex items-center justify-center font-bold text-2xl">
-                                {donor.name.charAt(0)}
+                            <div className="w-16 h-16 rounded-full bg-rose-950 text-white flex items-center justify-center font-bold text-2xl overflow-hidden">
+                                {donor.photo ? (
+                                    <img src={donor.photo} alt={donor.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    donor.name.charAt(0)
+                                )}
                             </div>
                             <span className="absolute left-0 top-0 bg-rose-100 text-rose-950 font-bold px-3 py-1.5 rounded-lg">
                                 {donor.bloodGroup}

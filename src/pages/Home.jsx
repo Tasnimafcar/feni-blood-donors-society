@@ -28,10 +28,12 @@ function Home() {
                                 ডোনার দেখুন
                             </Link>
                         </motion.div>
-                        <button className="bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
-                            <UserPlus size={18} />
-                            রেজিস্ট্রেশন করুন
-                        </button>
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <Link to="/register" className="bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                                <UserPlus size={18} />
+                                রেজিস্ট্রেশন করুন
+                            </Link>
+                        </motion.div>
                     </div>
                 </div>
                 <div className="flex justify-center">
