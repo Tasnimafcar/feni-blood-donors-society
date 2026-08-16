@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar'
 import BackButton from '../components/BackButton'
 import Footer from '../components/Footer'
 import MedicalBackground from '../components/MedicalBackground'
+import { supabase } from '../supabaseClient'
 
 const BLOOD_GROUPS = ['A+', 'A−', 'B+', 'B−', 'AB+', 'AB−', 'O+', 'O−']
 const UPAZILAS = ['ফেনী সদর', 'ছাগলনাইয়া', 'সোনাগাজী', 'দাগনভূঞা', 'পরশুরাম', 'ফুলগাজী']
@@ -47,7 +48,7 @@ function Register() {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         if (alreadyRegistered) {
@@ -56,22 +57,29 @@ function Register() {
             return
         }
 
-
         const newDonor = {
-            id: Date.now(),
             name,
-            englishName: name,
             phone,
-            bloodGroup,
+            blood_group: bloodGroup,
             location,
+            father_name: fatherName,
+            mother_name: motherName,
             club: club.trim() || '—',
-            lastDonation: isNewDonor ? 'নতুন ডোনার' : lastDonation,
+            last_donation: isNewDonor ? null : lastDonation,
             photo: photoPreview,
+            password,
         }
 
-        const existingDonors = JSON.parse(localStorage.getItem('donors') || '[]')
-        existingDonors.push(newDonor)
-        localStorage.setItem('donors', JSON.stringify(existingDonors))
+        const { data, error } = await supabase
+            .from('donors')
+            .insert([newDonor])
+            .select()
+
+        if (error) {
+            console.error('Supabase insert error:', error)
+            alert('দুঃখিত, রেজিস্ট্রেশন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।')
+            return
+        }
 
         localStorage.setItem(
             'currentUser',

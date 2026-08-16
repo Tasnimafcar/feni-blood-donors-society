@@ -7,23 +7,59 @@ import BloodGroupFilter from '../components/BloodGroupFilter'
 import DonorCard from '../components/DonorCard'
 import MedicalBackground from '../components/MedicalBackground'
 import DonorDetailsModal from '../components/DonorDetailsModal'
+import { supabase } from '../supabaseClient'
 
 const fakeDonors = [
-    { id: 1, name: 'রহিম উদ্দিন', englishName: 'Rahim Uddin', phone: '০১৭xxxxxxxx', bloodGroup: 'O+', location: 'ফেনী সদর', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '১৫ জুন, ২০২৬' },
-    { id: 2, name: 'সাবরিনা আক্তার', englishName: 'Sabrina Akter', phone: '০১৮xxxxxxxx', bloodGroup: 'A+', location: 'ছাগলনাইয়া', club: '—', lastDonation: '২০ মার্চ, ২০২৬' },
-    { id: 3, name: 'কামাল হোসেন', englishName: 'Kamal Hossain', phone: '০১৯xxxxxxxx', bloodGroup: 'O+', location: 'সোনাগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '১০ জুলাই, ২০২৬' },
-    { id: 4, name: 'নাজমুল হক', englishName: 'Nazmul Haque', phone: '০১৬xxxxxxxx', bloodGroup: 'B+', location: 'দাগনভূঞা', club: '—', lastDonation: '৫ মে, ২০২৬' },
-    { id: 5, name: 'ফারজানা ইসলাম', englishName: 'Farzana Islam', phone: '০১৭xxxxxxxx', bloodGroup: 'AB+', location: 'পরশুরাম', club: '—', lastDonation: '১২ এপ্রিল, ২০২৬' },
-    { id: 6, name: 'তানভীর আহমেদ', englishName: 'Tanvir Ahmed', phone: '০১৫xxxxxxxx', bloodGroup: 'O−', location: 'ফুলগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '৮ ফেব্রুয়ারি, ২০২৬' },
+    { id: 'demo-1', name: 'রহিম উদ্দিন', englishName: 'Rahim Uddin', phone: '০১৭xxxxxxxx', bloodGroup: 'O+', location: 'ফেনী সদর', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '১৫ জুন, ২০২৬' },
+    { id: 'demo-2', name: 'সাবরিনা আক্তার', englishName: 'Sabrina Akter', phone: '০১৮xxxxxxxx', bloodGroup: 'A+', location: 'ছাগলনাইয়া', club: '—', lastDonation: '২০ মার্চ, ২০২৬' },
+    { id: 'demo-3', name: 'কামাল হোসেন', englishName: 'Kamal Hossain', phone: '০১৯xxxxxxxx', bloodGroup: 'O+', location: 'সোনাগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '১০ জুলাই, ২০২৬' },
+    { id: 'demo-4', name: 'নাজমুল হক', englishName: 'Nazmul Haque', phone: '০১৬xxxxxxxx', bloodGroup: 'B+', location: 'দাগনভূঞা', club: '—', lastDonation: '৫ মে, ২০২৬' },
+    { id: 'demo-5', name: 'ফারজানা ইসলাম', englishName: 'Farzana Islam', phone: '০১৭xxxxxxxx', bloodGroup: 'AB+', location: 'পরশুরাম', club: '—', lastDonation: '১২ এপ্রিল, ২০২৬' },
+    { id: 'demo-6', name: 'তানভীর আহমেদ', englishName: 'Tanvir Ahmed', phone: '০১৫xxxxxxxx', bloodGroup: 'O−', location: 'ফুলগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '৮ ফেব্রুয়ারি, ২০২৬' },
 ]
 
 function DonorSearch() {
     const [search, setSearch] = useState('')
     const [selectedGroup, setSelectedGroup] = useState('সব')
     const [selectedDonor, setSelectedDonor] = useState(null)
+    const [registeredDonors, setRegisteredDonors] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const layerStack = useRef([])
     const filterLayerActive = useRef(false)
+
+    // Supabase থেকে রেজিস্টার্ড ডোনারদের লিস্ট আনা
+    useEffect(() => {
+        const fetchDonors = async () => {
+            setLoading(true)
+            const { data, error } = await supabase
+                .from('donors')
+                .select('*')
+                .order('created_at', { ascending: false })
+
+            if (error) {
+                console.error('Supabase fetch error:', error)
+                setRegisteredDonors([])
+            } else {
+                // Supabase-এর snake_case কলাম নামগুলোকে বাকি অ্যাপের camelCase কাঠামোর সাথে মেলানো
+                const mapped = data.map((donor) => ({
+                    id: `real-${donor.id}`,
+                    name: donor.name,
+                    englishName: donor.name,
+                    phone: donor.phone,
+                    bloodGroup: donor.blood_group,
+                    location: donor.location,
+                    club: donor.club,
+                    lastDonation: donor.last_donation || 'নতুন ডোনার',
+                    photo: donor.photo,
+                }))
+                setRegisteredDonors(mapped)
+            }
+            setLoading(false)
+        }
+
+        fetchDonors()
+    }, [])
 
     useEffect(() => {
         const handlePopState = () => {
@@ -65,13 +101,13 @@ function DonorSearch() {
             setSelectedDonor(null)
         }
     }
-    const registeredDonors = JSON.parse(localStorage.getItem('donors') || '[]')
+
     const allDonors = [...registeredDonors, ...fakeDonors]
 
     const filteredDonors = allDonors.filter((donor) => {
         const query = search.trim().toLowerCase()
         const matchesSearch =
-            donor.name.includes(query) ||
+            donor.name.toLowerCase().includes(query) ||
             donor.englishName.toLowerCase().includes(query)
         const matchesGroup = selectedGroup === 'সব' || donor.bloodGroup === selectedGroup
         return matchesSearch && matchesGroup
@@ -98,19 +134,27 @@ function DonorSearch() {
                     <BloodGroupFilter selected={selectedGroup} onSelect={setSelectedGroup} />
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4">
-                    {filteredDonors.map((donor) => (
-                        <DonorCard key={donor.id} donor={donor} onViewDetails={openDonorModal} />
-                    ))}
-                </div>
-
-                {filteredDonors.length === 0 && (
+                {loading ? (
                     <div className="flex-1 flex items-center justify-center py-10 text-center px-4">
-                        <p className="text-lg font-bold">
-                            <span className="text-rose-950">কোনো ডোনার্স </span>
-                            <span className="text-rose-500">পাওয়া যায়নি</span>
-                        </p>
+                        <p className="text-sm font-semibold text-rose-800">লোড হচ্ছে...</p>
                     </div>
+                ) : (
+                    <>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                            {filteredDonors.map((donor) => (
+                                <DonorCard key={donor.id} donor={donor} onViewDetails={openDonorModal} />
+                            ))}
+                        </div>
+
+                        {filteredDonors.length === 0 && (
+                            <div className="flex-1 flex items-center justify-center py-10 text-center px-4">
+                                <p className="text-lg font-bold">
+                                    <span className="text-rose-950">কোনো ডোনার্স </span>
+                                    <span className="text-rose-500">পাওয়া যায়নি</span>
+                                </p>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
 
