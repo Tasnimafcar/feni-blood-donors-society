@@ -56,6 +56,7 @@ function Account() {
 
       if (error || !data) {
         console.error('Supabase fetch error:', error)
+        clearSession()
         navigate('/login')
         return
       }
@@ -249,11 +250,10 @@ function Account() {
                     key={group}
                     type="button"
                     onClick={() => setForm({ ...form, bloodGroup: group })}
-                    className={`px-4 py-2 rounded-full border-2 text-sm font-bold ${
-                      form.bloodGroup === group
+                    className={`px-4 py-2 rounded-full border-2 text-sm font-bold ${form.bloodGroup === group
                         ? 'bg-rose-950 text-white border-rose-950'
                         : 'bg-white text-rose-950 border-rose-300'
-                    }`}
+                      }`}
                   >
                     {group}
                   </button>
