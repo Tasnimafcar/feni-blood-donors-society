@@ -29,9 +29,9 @@ function Home() {
                     <p className="text-base text-rose-800/70 mb-8">
                         জরুরি প্রয়োজনে খুঁজে নিন উপযুক্ত রক্তদাতা, অথবা নিজে রক্তদাতা হয়ে যোগ দিতে আজই রেজিস্ট্রেশন করুন
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <Link to="/donors" className="bg-rose-950 text-white rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                            <Link to="/donors" className="whitespace-nowrap bg-rose-950 text-white rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
                                 <Users size={18} />
                                 ডোনার দেখুন
                             </Link>
@@ -39,7 +39,7 @@ function Home() {
 
                         {currentUser ? (
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <Link to="/account" className="bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                                <Link to="/account" className="whitespace-nowrap bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
                                     <UserCircle size={18} />
                                     আমার অ্যাকাউন্ট
                                 </Link>
@@ -47,13 +47,13 @@ function Home() {
                         ) : (
                             <>
                                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                    <Link to="/register" className="bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                                    <Link to="/register" className="whitespace-nowrap bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
                                         <UserPlus size={18} />
                                         রেজিস্ট্রেশন করুন
                                     </Link>
                                 </motion.div>
                                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                    <Link to="/login" className="bg-white text-rose-950 border-2 border-rose-200 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                                    <Link to="/login" className="whitespace-nowrap bg-white text-rose-950 border-2 border-rose-200 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
                                         <LogIn size={18} />
                                         লগইন করুন
                                     </Link>
