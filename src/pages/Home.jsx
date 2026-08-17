@@ -1,12 +1,20 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import MedicalBackground from '../components/MedicalBackground'
-import { Users, UserPlus } from 'lucide-react'
+import { Users, UserPlus, LogIn, UserCircle } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Logo from '../components/Logo'
+import { getSession } from '../utils/session'
 
 function Home() {
+    const [currentUser, setCurrentUser] = useState(null)
+
+    useEffect(() => {
+        setCurrentUser(getSession())
+    }, [])
+
     return (
         <div className="min-h-screen bg-rose-50 relative">
             <MedicalBackground />
@@ -28,12 +36,30 @@ function Home() {
                                 ডোনার দেখুন
                             </Link>
                         </motion.div>
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <Link to="/register" className="bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
-                                <UserPlus size={18} />
-                                রেজিস্ট্রেশন করুন
-                            </Link>
-                        </motion.div>
+
+                        {currentUser ? (
+                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                <Link to="/account" className="bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                                    <UserCircle size={18} />
+                                    আমার অ্যাকাউন্ট
+                                </Link>
+                            </motion.div>
+                        ) : (
+                            <>
+                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    <Link to="/register" className="bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                                        <UserPlus size={18} />
+                                        রেজিস্ট্রেশন করুন
+                                    </Link>
+                                </motion.div>
+                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    <Link to="/login" className="bg-white text-rose-950 border-2 border-rose-200 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
+                                        <LogIn size={18} />
+                                        লগইন করুন
+                                    </Link>
+                                </motion.div>
+                            </>
+                        )}
                     </div>
                 </div>
                 <div className="flex justify-center">

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Phone, MapPin, Clock, Camera, Pencil, Save, Trash2, CheckCircle2 } from 'lucide-react'
+import { Phone, MapPin, Clock, Camera, Pencil, Save, Trash2, CheckCircle2, LogOut } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import BackButton from '../components/BackButton'
 import Footer from '../components/Footer'
 import MedicalBackground from '../components/MedicalBackground'
 import { supabase } from '../supabaseClient'
+import { getSession, saveSession, clearSession } from '../utils/session'
 
 const BLOOD_GROUPS = ['A+', 'A−', 'B+', 'B−', 'AB+', 'AB−', 'O+', 'O−']
 const UPAZILAS = ['ফেনী সদর', 'ছাগলনাইয়া', 'সোনাগাজী', 'দাগনভূঞা', 'পরশুরাম', 'ফুলগাজী']
@@ -41,9 +42,9 @@ function Account() {
 
   useEffect(() => {
     const fetchMyDonor = async () => {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
+      const currentUser = getSession()
       if (!currentUser) {
-        navigate('/')
+        navigate('/login')
         return
       }
 
@@ -55,7 +56,7 @@ function Account() {
 
       if (error || !data) {
         console.error('Supabase fetch error:', error)
-        navigate('/')
+        navigate('/login')
         return
       }
 
@@ -96,11 +97,8 @@ function Account() {
       return
     }
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
-    localStorage.setItem(
-      'currentUser',
-      JSON.stringify({ ...currentUser, name: form.name, bloodGroup: form.bloodGroup, photo: form.photo })
-    )
+    const currentUser = getSession()
+    saveSession({ ...currentUser, name: form.name, bloodGroup: form.bloodGroup, photo: form.photo })
 
     setDonor(form)
     setIsEditing(false)
@@ -124,10 +122,15 @@ function Account() {
       return
     }
 
-    localStorage.removeItem('currentUser')
+    clearSession()
 
     setShowDeleteConfirm(false)
     setShowDeleteSuccess(true)
+  }
+
+  const handleLogout = () => {
+    clearSession()
+    navigate('/')
   }
 
   if (loading || !donor) {
@@ -200,6 +203,18 @@ function Account() {
               >
                 <Trash2 size={16} />
                 অ্যাকাউন্ট মুছুন
+              </motion.button>
+            </div>
+
+            <div className="border-t border-rose-100">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleLogout}
+                className="w-full py-3 flex items-center justify-center gap-2 text-sm font-bold text-rose-500"
+              >
+                <LogOut size={16} />
+                লগআউট করুন
               </motion.button>
             </div>
           </div>

@@ -7,6 +7,7 @@ import BackButton from '../components/BackButton'
 import Footer from '../components/Footer'
 import MedicalBackground from '../components/MedicalBackground'
 import { supabase } from '../supabaseClient'
+import { getSession, saveSession } from '../utils/session'
 
 const BLOOD_GROUPS = ['A+', 'A−', 'B+', 'B−', 'AB+', 'AB−', 'O+', 'O−']
 const UPAZILAS = ['ফেনী সদর', 'ছাগলনাইয়া', 'সোনাগাজী', 'দাগনভূঞা', 'পরশুরাম', 'ফুলগাজী']
@@ -30,12 +31,13 @@ function Register() {
     const [showPassword, setShowPassword] = useState(false)
     const [showPhotoPreview, setShowPhotoPreview] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
 
     const [alreadyRegistered, setAlreadyRegistered] = useState(false)
     const [shake, setShake] = useState(false)
 
     useEffect(() => {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
+        const currentUser = getSession()
         if (currentUser) setAlreadyRegistered(true)
     }, [])
 
@@ -57,6 +59,8 @@ function Register() {
             return
         }
 
+        setSubmitting(true)
+
         const newDonor = {
             name,
             phone,
@@ -70,10 +74,9 @@ function Register() {
             password,
         }
 
-        const { data, error } = await supabase
-            .from('donors')
-            .insert([newDonor])
-            .select()
+        const { error } = await supabase.from('donors').insert([newDonor])
+
+        setSubmitting(false)
 
         if (error) {
             console.error('Supabase insert error:', error)
@@ -81,10 +84,7 @@ function Register() {
             return
         }
 
-        localStorage.setItem(
-            'currentUser',
-            JSON.stringify({ phone, password, name, bloodGroup, photo: photoPreview })
-        )
+        saveSession({ phone, password, name, bloodGroup, photo: photoPreview })
 
         setShowSuccess(true)
     }
@@ -294,13 +294,14 @@ function Register() {
 
                     <motion.button
                         type="submit"
+                        disabled={submitting}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         animate={shake ? { x: [0, -8, 8, -8, 8, 0] } : {}}
                         transition={{ duration: 0.4 }}
-                        className="bg-rose-950 text-white rounded-xl py-3 font-bold mt-2"
+                        className="bg-rose-950 text-white rounded-xl py-3 font-bold mt-2 disabled:opacity-60"
                     >
-                        রেজিস্ট্রেশন করুন
+                        {submitting ? 'সেভ হচ্ছে...' : 'রেজিস্ট্রেশন করুন'}
                     </motion.button>
                 </form>
             </div>
