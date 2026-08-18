@@ -6,13 +6,43 @@ import MedicalBackground from '../components/MedicalBackground'
 import { Users, UserPlus, LogIn, UserCircle } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Logo from '../components/Logo'
-import { getSession } from '../utils/session'
+import { getSession, saveSession, clearSession } from '../utils/session'
+import { supabase } from '../supabaseClient'
 
 function Home() {
     const [currentUser, setCurrentUser] = useState(null)
 
     useEffect(() => {
-        setCurrentUser(getSession())
+        const syncSession = async () => {
+            const session = getSession()
+            if (!session) {
+                setCurrentUser(null)
+                return
+            }
+
+            const { data, error } = await supabase
+                .from('donors')
+                .select('*')
+                .eq('phone', session.phone)
+                .maybeSingle()
+
+            if (error || !data) {
+                clearSession()
+                setCurrentUser(null)
+            } else {
+                const freshUser = {
+                    phone: data.phone,
+                    password: data.password,
+                    name: data.name,
+                    bloodGroup: data.blood_group,
+                    photo: data.photo,
+                }
+                saveSession(freshUser)
+                setCurrentUser(freshUser)
+            }
+        }
+
+        syncSession()
     }, [])
 
     return (
