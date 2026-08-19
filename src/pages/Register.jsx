@@ -62,8 +62,8 @@ function Register() {
         setSubmitting(true)
 
         const newDonor = {
-            name,
-            phone,
+            name: name.trim(),
+            phone: phone.trim(),
             blood_group: bloodGroup,
             location,
             father_name: fatherName,
@@ -71,7 +71,7 @@ function Register() {
             club: club.trim() || '—',
             last_donation: isNewDonor ? null : lastDonation,
             photo: photoPreview,
-            password,
+            password: password.trim(),
         }
 
         const { error } = await supabase.from('donors').insert([newDonor])

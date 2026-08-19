@@ -28,7 +28,7 @@ function Login() {
         const { data, error: fetchError } = await supabase
             .from('donors')
             .select('*')
-            .eq('phone', phone)
+            .eq('phone', phone.trim())
             .maybeSingle()
 
         setSubmitting(false)
@@ -38,7 +38,7 @@ function Login() {
             return
         }
 
-        if (data.password !== password) {
+        if (data.password.trim() !== password.trim()) {
             setError('পাসওয়ার্ড সঠিক নয়।')
             return
         }
