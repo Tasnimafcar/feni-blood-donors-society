@@ -51,7 +51,7 @@ function Login() {
             photo: data.photo,
         })
 
-        navigate('/account')
+        navigate('/account', { replace: true })
     }
 
     return (

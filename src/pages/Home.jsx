@@ -11,6 +11,7 @@ import { supabase } from '../supabaseClient'
 
 function Home() {
     const [currentUser, setCurrentUser] = useState(null)
+    const [sessionLoading, setSessionLoading] = useState(true)
 
     useEffect(() => {
         const syncSession = async () => {
@@ -40,6 +41,7 @@ function Home() {
                 saveSession(freshUser)
                 setCurrentUser(freshUser)
             }
+            setSessionLoading(false)
         }
 
         syncSession()
@@ -67,7 +69,9 @@ function Home() {
                             </Link>
                         </motion.div>
 
-                        {currentUser ? (
+                        {sessionLoading ? (
+                            <div className="h-13" />
+                        ) : currentUser ? (
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                 <Link to="/account" className="whitespace-nowrap bg-white text-rose-950 border-2 border-rose-950 rounded-xl px-6 py-3 font-semibold flex items-center justify-center gap-2">
                                     <UserCircle size={18} />
