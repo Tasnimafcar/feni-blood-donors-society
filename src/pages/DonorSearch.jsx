@@ -9,14 +9,6 @@ import MedicalBackground from '../components/MedicalBackground'
 import DonorDetailsModal from '../components/DonorDetailsModal'
 import { supabase } from '../supabaseClient'
 
-const fakeDonors = [
-    { id: 'demo-1', name: 'রহিম উদ্দিন', englishName: 'Rahim Uddin', phone: '০১৭xxxxxxxx', bloodGroup: 'O+', location: 'ফেনী সদর', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '১৫ জুন, ২০২৬' },
-    { id: 'demo-2', name: 'সাবরিনা আক্তার', englishName: 'Sabrina Akter', phone: '০১৮xxxxxxxx', bloodGroup: 'A+', location: 'ছাগলনাইয়া', club: '—', lastDonation: '২০ মার্চ, ২০২৬' },
-    { id: 'demo-3', name: 'কামাল হোসেন', englishName: 'Kamal Hossain', phone: '০১৯xxxxxxxx', bloodGroup: 'O+', location: 'সোনাগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '১০ জুলাই, ২০২৬' },
-    { id: 'demo-4', name: 'নাজমুল হক', englishName: 'Nazmul Haque', phone: '০১৬xxxxxxxx', bloodGroup: 'B+', location: 'দাগনভূঞা', club: '—', lastDonation: '৫ মে, ২০২৬' },
-    { id: 'demo-5', name: 'ফারজানা ইসলাম', englishName: 'Farzana Islam', phone: '০১৭xxxxxxxx', bloodGroup: 'AB+', location: 'পরশুরাম', club: '—', lastDonation: '১২ এপ্রিল, ২০২৬' },
-    { id: 'demo-6', name: 'তানভীর আহমেদ', englishName: 'Tanvir Ahmed', phone: '০১৫xxxxxxxx', bloodGroup: 'O−', location: 'ফুলগাজী', club: 'বাথানিয়া ব্লাড ডোনার্স ক্লাব', lastDonation: '৮ ফেব্রুয়ারি, ২০২৬' },
-]
 
 function DonorSearch() {
     const [search, setSearch] = useState('')
@@ -28,7 +20,7 @@ function DonorSearch() {
     const layerStack = useRef([])
     const filterLayerActive = useRef(false)
 
-    // Supabase থেকে রেজিস্টার্ড ডোনারদের লিস্ট আনা
+    
     useEffect(() => {
         const fetchDonors = async () => {
             setLoading(true)
@@ -41,7 +33,7 @@ function DonorSearch() {
                 console.error('Supabase fetch error:', error)
                 setRegisteredDonors([])
             } else {
-                // Supabase-এর snake_case কলাম নামগুলোকে বাকি অ্যাপের camelCase কাঠামোর সাথে মেলানো
+                
                 const mapped = data.map((donor) => ({
                     id: `real-${donor.id}`,
                     name: donor.name,
@@ -102,7 +94,7 @@ function DonorSearch() {
         }
     }
 
-    const allDonors = [...registeredDonors, ...fakeDonors]
+    const allDonors = [...registeredDonors ]
 
     const filteredDonors = allDonors.filter((donor) => {
         const query = search.trim().toLowerCase()

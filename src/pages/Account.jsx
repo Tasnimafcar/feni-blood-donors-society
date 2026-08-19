@@ -15,7 +15,7 @@ const UPAZILAS = ['ফেনী সদর', 'ছাগলনাইয়া', '�
 const inputClass =
   'w-full rounded-xl border-2 border-rose-950 px-4 py-3 text-sm font-medium text-rose-950 outline-none focus:ring-2 focus:ring-rose-950/40 bg-white transition-all'
 
-// Supabase row (snake_case) -> app-এর ব্যবহার করা shape (camelCase)
+
 const mapFromDb = (row) => ({
   id: row.id,
   name: row.name,
@@ -307,7 +307,7 @@ function Account() {
         )}
       </div>
 
-      {/* ডিলিট কনফার্মেশন - বাবার নাম যাচাই */}
+     
       <AnimatePresence>
         {showDeleteConfirm && (
           <motion.div
@@ -359,7 +359,7 @@ function Account() {
         )}
       </AnimatePresence>
 
-      {/* ডিলিট সফল হওয়ার এলার্ট */}
+      
       <AnimatePresence>
         {showDeleteSuccess && (
           <motion.div
