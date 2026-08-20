@@ -37,7 +37,7 @@ function DonorSearch() {
                 const mapped = data.map((donor) => ({
                     id: `real-${donor.id}`,
                     name: donor.name,
-                    englishName: donor.name,
+                    englishName: donor.english_name || donor.name,
                     phone: donor.phone,
                     bloodGroup: donor.blood_group,
                     location: donor.location,

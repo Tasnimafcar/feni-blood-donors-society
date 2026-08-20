@@ -19,6 +19,7 @@ const inputClass =
 const mapFromDb = (row) => ({
   id: row.id,
   name: row.name,
+  englishName: row.english_name,
   phone: row.phone,
   bloodGroup: row.blood_group,
   location: row.location,
@@ -84,6 +85,7 @@ function Account() {
       .from('donors')
       .update({
         name: form.name,
+        english_name: form.englishName,
         blood_group: form.bloodGroup,
         location: form.location,
         last_donation: form.lastDonation || null,
@@ -234,10 +236,21 @@ function Account() {
             </div>
 
             <div>
-              <label className="text-sm font-bold text-rose-950 mb-1 block">নাম</label>
+              <label className="text-sm font-bold text-rose-950 mb-1 block">বাংলা নাম</label>
               <input
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="আপনার পূর্ণ বাংলা নাম"
+                className={inputClass}
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-bold text-rose-950 mb-1 block">ইংরেজি নাম (ঐচ্ছিক)</label>
+              <input
+                value={form.englishName || ''}
+                onChange={(e) => setForm({ ...form, englishName: e.target.value })}
+                placeholder="আপনার পূর্ণ ইংরেজি নাম"
                 className={inputClass}
               />
             </div>
@@ -251,8 +264,8 @@ function Account() {
                     type="button"
                     onClick={() => setForm({ ...form, bloodGroup: group })}
                     className={`px-4 py-2 rounded-full border-2 text-sm font-bold ${form.bloodGroup === group
-                        ? 'bg-rose-950 text-white border-rose-950'
-                        : 'bg-white text-rose-950 border-rose-300'
+                      ? 'bg-rose-950 text-white border-rose-950'
+                      : 'bg-white text-rose-950 border-rose-300'
                       }`}
                   >
                     {group}
@@ -307,7 +320,7 @@ function Account() {
         )}
       </div>
 
-     
+
       <AnimatePresence>
         {showDeleteConfirm && (
           <motion.div
@@ -359,7 +372,7 @@ function Account() {
         )}
       </AnimatePresence>
 
-      
+
       <AnimatePresence>
         {showDeleteSuccess && (
           <motion.div

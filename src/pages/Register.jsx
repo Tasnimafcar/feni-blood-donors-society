@@ -19,6 +19,7 @@ function Register() {
     const navigate = useNavigate()
     const [photoPreview, setPhotoPreview] = useState(null)
     const [name, setName] = useState('')
+    const [englishName, setEnglishName] = useState('')
     const [phone, setPhone] = useState('')
     const [bloodGroup, setBloodGroup] = useState('')
     const [location, setLocation] = useState('')
@@ -63,6 +64,7 @@ function Register() {
 
         const newDonor = {
             name: name.trim(),
+            english_name: englishName.trim(),
             phone: phone.trim(),
             blood_group: bloodGroup,
             location,
@@ -136,16 +138,27 @@ function Register() {
                             </label>
                         )}
                     </div>
-
                     <div>
-                        <label className="text-sm font-bold text-rose-950 mb-1 block">নাম</label>
+                        <label className="text-sm font-bold text-rose-950 mb-1 block">বাংলা নাম</label>
                         <motion.input
                             whileHover={{ scale: 1.02 }}
                             whileFocus={{ scale: 1.03 }}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            placeholder="আপনার পূর্ণ নাম"
+                            placeholder="আপনার পূর্ণ বাংলা নাম"
+                            className={inputClass}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-bold text-rose-950 mb-1 block">ইংরেজি নাম (ঐচ্ছিক)</label>
+                        <motion.input
+                            whileHover={{ scale: 1.02 }}
+                            whileFocus={{ scale: 1.03 }}
+                            value={englishName}
+                            onChange={(e) => setEnglishName(e.target.value)}
+                            placeholder="আপনার পূর্ণ ইংরেজি নাম"
                             className={inputClass}
                         />
                     </div>
